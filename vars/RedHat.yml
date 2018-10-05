@@ -1,0 +1,5 @@
+#! vim: ft=yaml ts=2:
+---
+
+rng:
+  rng_tools_service: rngd

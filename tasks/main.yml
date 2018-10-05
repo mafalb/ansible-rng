@@ -1,0 +1,22 @@
+#! vim: ft=yaml ts=2:
+---
+
+- name: include OS specific variables
+  include_vars:
+    file: "{{ ansible_os_family }}.yml"
+
+- debug: var=rng
+  tags:
+    - never
+    - debug
+
+- name: rng-tools are present
+  package:
+    name: rng-tools
+    state: present 
+
+- name: rngd is running
+  service:
+    name: "{{ rng.rng_tools_service }}"
+    state: started
+    enabled: true
