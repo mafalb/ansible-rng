@@ -1,6 +1,20 @@
 #! vim: ft=yaml ts=2:
 ---
 
+- name: is /dev/hwrng present?
+  stat:
+    path: /dev/hwrng
+  register: _hwrng
+
+- debug: var=_hwrng
+  tags:
+    - never
+    - debug
+
+- name: assert that /dev/hwrng is present
+  assert:
+    that: _hwrng.stat.exists
+
 - name: include OS specific variables
   include_vars:
     file: "{{ ansible_os_family }}.yml"
