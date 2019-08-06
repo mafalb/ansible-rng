@@ -1,28 +1,15 @@
 #! vim: ft=yaml ts=2:
 ---
 
-- name: is /dev/hwrng present?
-  stat:
-    path: /dev/hwrng
-  register: _hwrng
-
-- debug: var=_hwrng
-  tags:
-    - never
-    - debug
-
-- name: assert that /dev/hwrng is present
-  assert:
-    that: _hwrng.stat.exists
-
 - name: include OS specific variables
   include_vars:
     file: "{{ ansible_os_family }}.yml"
 
-- debug: var=rng
-  tags:
-    - never
-    - debug
+- name: assertions
+  assert:
+    that:
+      - ansible_os_family == 'RedHat'
+      - ansible_distribution_major_version in ["7"]
 
 - name: rng-tools are present
   package:
